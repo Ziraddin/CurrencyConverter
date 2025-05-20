@@ -7,5 +7,4 @@ data class ConverterState(
     val currencyTo: String = "EUR",
     val currencyList: List<String> = emptyList(),
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
 )

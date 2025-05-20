@@ -1,4 +1,4 @@
-package com.example.currencyconverter.ui.theme
+package com.example.currencyconverter.presentation.core.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

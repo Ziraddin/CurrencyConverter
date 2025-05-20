@@ -2,6 +2,9 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+    id("kotlin-parcelize")
 }
 
 android {
@@ -40,6 +43,18 @@ android {
 }
 
 dependencies {
+    // Serialization
+    implementation(libs.kotlinx.serialization.json)
+
+    // Hilt
+    implementation(libs.dagger.hilt.android)
+    kapt(libs.hilt.compiler)
+
+    // Retrofit
+    implementation(libs.squareup.retrofit)
+    implementation(libs.converter.gson)
+
+    // Lottie
     implementation(libs.lottie.compose)
 
     implementation(libs.androidx.core.ktx)
@@ -50,6 +65,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.transport.runtime)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

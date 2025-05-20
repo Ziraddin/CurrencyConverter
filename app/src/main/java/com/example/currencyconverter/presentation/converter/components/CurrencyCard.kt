@@ -21,6 +21,7 @@ fun CurrencyCard(
     amount: String,
     currency: String,
     currencyList: List<String>,
+    isFirst: Boolean,
     onAmountChange: (String) -> Unit,
     onCurrencyChange: (String) -> Unit
 ) {
@@ -36,8 +37,9 @@ fun CurrencyCard(
             Spacer(modifier = Modifier.height(8.dp))
 
             AmountTextField(
+                isFirst,
                 value = amount,
-                onValueChange = onAmountChange
+                onValueChange = { onAmountChange(it) }
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -45,7 +47,7 @@ fun CurrencyCard(
             CurrencyDropdown(
                 selectedCurrency = currency,
                 currencyList = currencyList,
-                onCurrencySelected = onCurrencyChange
+                onCurrencySelected = { onCurrencyChange(it) }
             )
         }
     }

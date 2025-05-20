@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun AmountTextField(
-    value: String,
-    onValueChange: (String) -> Unit
+    isFirst: Boolean, value: String, onValueChange: (String) -> Unit
 ) {
     TextField(
         value = value,
-        onValueChange = onValueChange,
+        enabled = isFirst,
+        onValueChange = { if (isFirst) onValueChange(it) },
         modifier = Modifier.fillMaxWidth(),
         placeholder = { Text("Enter amount") },
         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -28,8 +28,10 @@ fun AmountTextField(
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color(0xFFF0F0F0),
             unfocusedContainerColor = Color(0xFFF0F0F0),
+            disabledContainerColor = Color(0xFFF0F0F0),
             focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledIndicatorColor = Color.Transparent
         )
     )
 }

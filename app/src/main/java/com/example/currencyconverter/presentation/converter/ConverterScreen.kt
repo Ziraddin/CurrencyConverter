@@ -1,12 +1,16 @@
 package com.example.currencyconverter.presentation.converter
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -15,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,8 +32,19 @@ import com.example.currencyconverter.presentation.converter.components.CurrencyC
 
 @Composable
 fun ConverterScreen(
-    state: ConverterState, onIntent: (ConverterIntent) -> Unit
+    state: ConverterState, onIntent: (ConverterIntent) -> Unit, viewModel: ConverterViewModel
 ) {
+    var showDialog by remember { mutableStateOf(false) }
+    var currentError by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        viewModel.error.collect { error ->
+            currentError = error
+            showDialog = true
+            Log.e("Error", error)
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -42,13 +58,38 @@ fun ConverterScreen(
             modifier = Modifier.align(Alignment.CenterHorizontally)
         )
 
+        if (showDialog) {
+            AlertDialog(
+                containerColor = Color.White,
+                onDismissRequest = {
+                    showDialog = false
+                },
+                shape = RoundedCornerShape(12.dp),
+                title = { Text(text = "🤯 Error Occured!", color = Color.Red) },
+                text = { Text(text = currentError!!) },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            showDialog = false
+                        },
+                    ) {
+                        Text(
+                            text = "Dismiss",
+                            color = Color.Blue,
+                        )
+                    }
+                })
+        }
+
         CurrencyCard(
             label = "From",
             amount = state.amountFrom,
             currency = state.currencyFrom,
             currencyList = state.currencyList,
-            onAmountChange = { onIntent(ConverterIntent.EnterAmount(it, true)) },
-            onCurrencyChange = { onIntent(ConverterIntent.SelectCurrency(it, true)) })
+            onAmountChange = { onIntent(ConverterIntent.EnterAmount(it)) },
+            onCurrencyChange = { onIntent(ConverterIntent.SelectCurrency(it, true)) },
+            isFirst = true
+        )
 
         // Lottie swap animation
         var isPlaying by remember { mutableStateOf(false) }
@@ -83,7 +124,8 @@ fun ConverterScreen(
             amount = state.amountTo,
             currency = state.currencyTo,
             currencyList = state.currencyList,
-            onAmountChange = { onIntent(ConverterIntent.EnterAmount(it, false)) },
+            isFirst = false,
+            onAmountChange = { onIntent(ConverterIntent.EnterAmount(it)) },
             onCurrencyChange = { onIntent(ConverterIntent.SelectCurrency(it, false)) })
     }
 }

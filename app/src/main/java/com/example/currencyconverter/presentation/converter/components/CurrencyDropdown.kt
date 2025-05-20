@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 fun CurrencyDropdown(
     selectedCurrency: String,
     currencyList: List<String>,
-    onCurrencySelected: (String) -> Unit
+    onCurrencySelected: (String) -> Unit,
 ) {
     var expanded by remember { mutableStateOf(false) }
 

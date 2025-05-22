@@ -17,10 +17,10 @@ This is a simple Android app to convert money between currencies.
 
 ## Screenshots
 
-![image1](app/src/main/res/raw/image1.jpg)  
+![image1](images/image1.jpg)  
 *Main screen of the app*
 
-![image2](app/src/main/res/raw/image2.jpg)  
+![image2](images/image2.jpg)  
 *Currency selection screen*
 
 ## Tech Used

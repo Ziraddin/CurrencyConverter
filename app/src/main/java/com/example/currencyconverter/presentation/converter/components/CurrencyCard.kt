@@ -14,13 +14,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.example.currencyconverter.domain.model.Currency
 
 @Composable
 fun CurrencyCard(
     label: String,
     amount: String,
     currency: String,
-    currencyList: List<String>,
+    currencyList: List<Currency>,
     isFirst: Boolean,
     onAmountChange: (String) -> Unit,
     onCurrencyChange: (String) -> Unit
@@ -33,17 +34,13 @@ fun CurrencyCard(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = label, fontWeight = FontWeight.SemiBold)
-
             Spacer(modifier = Modifier.height(8.dp))
-
             AmountTextField(
                 isFirst,
                 value = amount,
                 onValueChange = { onAmountChange(it) }
             )
-
             Spacer(modifier = Modifier.height(8.dp))
-
             CurrencyDropdown(
                 selectedCurrency = currency,
                 currencyList = currencyList,

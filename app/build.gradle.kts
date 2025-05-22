@@ -11,6 +11,12 @@ android {
     namespace = "com.example.currencyconverter"
     compileSdk = 35
 
+    packaging {
+        resources {
+            excludes += "META-INF/DEPENDENCIES"
+        }
+    }
+
     defaultConfig {
         applicationId = "com.example.currencyconverter"
         minSdk = 24
@@ -43,6 +49,11 @@ android {
 }
 
 dependencies {
+
+    // Google
+    implementation(libs.google.auth.library.oauth2.http)
+    implementation(libs.okhttp)
+
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 

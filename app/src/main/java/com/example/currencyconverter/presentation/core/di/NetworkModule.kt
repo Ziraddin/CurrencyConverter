@@ -1,10 +1,15 @@
 package com.example.currencyconverter.presentation.core.di
 
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.example.currencyconverter.data.interceptor.ApiKeyInterceptor
 import com.example.currencyconverter.data.remote.ICurrencyApi
+import com.example.currencyconverter.presentation.core.ApiKeyRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -17,10 +22,19 @@ object NetworkModule {
 
     private const val BASE_URL = "https://api.freecurrencyapi.com/v1/"
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     @Singleton
-    fun provideApiKeyInterceptor(): ApiKeyInterceptor {
-        return ApiKeyInterceptor("fca_live_rlHFx1SRm8mkY0kqvwmZuwBk68oF1ASQbxP41RZ8")
+    fun provideApiKeyRepository(@ApplicationContext context: Context): ApiKeyRepository {
+        return ApiKeyRepository(context)
+    }
+
+    @Provides
+    @Singleton
+    fun provideApiKeyInterceptor(apiKeyRepository: ApiKeyRepository): ApiKeyInterceptor {
+        return ApiKeyInterceptor {
+            apiKeyRepository.apiKey.value
+        }
     }
 
     @Provides

@@ -55,7 +55,9 @@ fun ConverterScreen(
             text = "Currency Converter",
             fontSize = 24.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 32.dp),
         )
 
         if (showDialog) {
@@ -91,7 +93,7 @@ fun ConverterScreen(
             isFirst = true
         )
 
-        // Lottie swap animation
+        // Lottie animation
         var isPlaying by remember { mutableStateOf(false) }
 
         val composition by rememberLottieComposition(

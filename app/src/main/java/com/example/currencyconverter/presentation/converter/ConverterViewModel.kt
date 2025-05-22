@@ -115,7 +115,7 @@ class ConverterViewModel @Inject constructor(
                 _state.update { it.copy(isLoading = true) }
                 val response = useCases.getCurrencies()
                 if (response.isSuccessful) {
-                    val currencies = response.body()?.map { it.code }?.sorted() ?: emptyList()
+                    val currencies = response.body()?.sortedBy { it.code } ?: emptyList()
                     _state.update { it.copy(currencyList = currencies) }
                 } else {
                     _error.emit("Error: ${response.errorBody()?.string()}")

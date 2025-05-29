@@ -50,6 +50,12 @@ android {
 
 dependencies {
 
+    // Chart
+    implementation("io.github.ehsannarmani:compose-charts:0.1.0")
+
+    // Navigation
+    implementation(libs.androidx.navigation.compose)
+
     // Google
     implementation(libs.google.auth.library.oauth2.http)
     implementation(libs.okhttp)

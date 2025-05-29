@@ -7,9 +7,9 @@ class GetLatestRatesUseCase @Inject constructor(
     private val repository: CurrencyRepository
 ) {
     suspend operator fun invoke(
-        baseCurrency: String?, targetCurrencies: List<String>? = null, amount: Double?
+        baseCurrency: String?, currencies: List<String>? = null, amount: Double?
     ) = if (amount != null && amount > 0) {
-        repository.getLatestRates(baseCurrency, targetCurrencies)
+        repository.getLatestRates(baseCurrency, currencies)
     } else {
         throw IllegalArgumentException("Amount must be greater than 0")
     }

@@ -47,7 +47,6 @@ class ConverterViewModel @Inject constructor(
             is ConverterIntent.GetStatus -> {
                 getStatus()
             }
-
         }
     }
 
@@ -82,29 +81,31 @@ class ConverterViewModel @Inject constructor(
     }
 
     private fun convertCurrency() {
-        viewModelScope.launch {
-            try {
-                _state.update { it.copy(isLoading = true) }
-                val response = useCases.getLatestRates(
-                    baseCurrency = state.value.currencyFrom,
-                    targetCurrencies = listOf(state.value.currencyTo),
-                    amount = state.value.amountFrom.toDouble()
-                )
+        if (state.value.amountFrom.isNotEmpty()) {
+            viewModelScope.launch {
+                try {
+                    _state.update { it.copy(isLoading = true) }
+                    val response = useCases.getLatestRates(
+                        baseCurrency = state.value.currencyFrom,
+                        currencies = listOf(state.value.currencyTo),
+                        amount = state.value.amountFrom.toDouble()
+                    )
 
-                if (response.isSuccessful) {
-                    val rate = response.body()?.get(0)?.rate
-                    val amountFrom = state.value.amountFrom.toDoubleOrNull()
-                    if (rate != null && amountFrom != null) {
-                        val amountTo = amountFrom * rate
-                        _state.update { it.copy(amountTo = amountTo.toString()) }
+                    if (response.isSuccessful) {
+                        val rate = response.body()?.get(0)?.rate
+                        val amountFrom = state.value.amountFrom.toDoubleOrNull()
+                        if (rate != null && amountFrom != null) {
+                            val amountTo = amountFrom * rate
+                            _state.update { it.copy(amountTo = amountTo.toString()) }
+                        }
+                    } else {
+                        _error.emit("Error: ${response.errorBody()?.string()}")
                     }
-                } else {
-                    _error.emit("Error: ${response.errorBody()?.string()}")
+                } catch (e: Exception) {
+                    _error.emit("Error: ${e.message}")
+                } finally {
+                    _state.update { it.copy(isLoading = false) }
                 }
-            } catch (e: Exception) {
-                _error.emit("Error: ${e.message}")
-            } finally {
-                _state.update { it.copy(isLoading = false) }
             }
         }
     }

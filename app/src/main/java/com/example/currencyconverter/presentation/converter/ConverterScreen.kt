@@ -20,14 +20,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.currencyconverter.R
+import com.example.currencyconverter.presentation.chart.components.AppBar
 import com.example.currencyconverter.presentation.converter.components.CurrencyCard
 
 @Composable
@@ -38,6 +37,8 @@ fun ConverterScreen(
     var currentError by remember { mutableStateOf<String?>(null) }
 
     LaunchedEffect(Unit) {
+        viewModel.onIntent(ConverterIntent.LoadCurrencies)
+        viewModel.onIntent(ConverterIntent.GetStatus)
         viewModel.error.collect { error ->
             currentError = error
             showDialog = true
@@ -48,17 +49,10 @@ fun ConverterScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(start = 16.dp, end = 16.dp, top = 48.dp, bottom = 16.dp),
+            .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(24.dp)
     ) {
-        Text(
-            text = "Currency Converter",
-            fontSize = 24.sp,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 32.dp),
-        )
+        AppBar(text = "Currency Converter")
 
         if (showDialog) {
             AlertDialog(

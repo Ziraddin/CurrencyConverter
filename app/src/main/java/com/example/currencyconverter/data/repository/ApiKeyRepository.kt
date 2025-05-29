@@ -1,8 +1,9 @@
-package com.example.currencyconverter.presentation.core
+package com.example.currencyconverter.data.repository
 
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import com.example.currencyconverter.presentation.core.fetchSecret
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

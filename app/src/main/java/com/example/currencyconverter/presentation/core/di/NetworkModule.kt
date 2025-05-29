@@ -4,8 +4,8 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.example.currencyconverter.data.interceptor.ApiKeyInterceptor
-import com.example.currencyconverter.data.remote.ICurrencyApi
-import com.example.currencyconverter.presentation.core.ApiKeyRepository
+import com.example.currencyconverter.data.remote.CurrencyApi
+import com.example.currencyconverter.data.repository.ApiKeyRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,6 +29,7 @@ object NetworkModule {
         return ApiKeyRepository(context)
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     @Provides
     @Singleton
     fun provideApiKeyInterceptor(apiKeyRepository: ApiKeyRepository): ApiKeyInterceptor {
@@ -52,7 +53,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideCurrencyApi(retrofit: Retrofit): ICurrencyApi {
-        return retrofit.create(ICurrencyApi::class.java)
+    fun provideCurrencyApi(retrofit: Retrofit): CurrencyApi {
+        return retrofit.create(CurrencyApi::class.java)
     }
 }

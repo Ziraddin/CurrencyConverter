@@ -1,5 +1,6 @@
 package com.example.currencyconverter.domain.repository
 
+import com.example.currencyconverter.data.remote.model.HistoricalRatesResponse
 import com.example.currencyconverter.domain.model.Currency
 import com.example.currencyconverter.domain.model.ExchangeRate
 import com.example.currencyconverter.domain.model.Status
@@ -15,4 +16,10 @@ interface CurrencyRepository {
         baseCurrency: String? = null,
         currencies: List<String>? = null
     ): Response<List<ExchangeRate>>
+
+    suspend fun getHistoricalRates(
+        date: String,
+        baseCurrency: String? = null,
+        currencies: List<String>? = null
+    ): Response<HistoricalRatesResponse>
 }

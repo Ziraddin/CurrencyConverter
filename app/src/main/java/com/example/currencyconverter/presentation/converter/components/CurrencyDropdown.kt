@@ -36,13 +36,14 @@ fun CurrencyDropdown(
     selectedCurrency: String,
     currencyList: List<Currency>,
     onCurrencySelected: (String) -> Unit,
+    modifier: Modifier = Modifier.fillMaxWidth()
 ) {
     var expanded by remember { mutableStateOf(false) }
 
     Box {
         OutlinedButton(
             onClick = { expanded = true },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = modifier,
             shape = RoundedCornerShape(12.dp),
             border = BorderStroke(0.dp, Color.White),
             colors = ButtonDefaults.outlinedButtonColors(containerColor = Color(0xFFF0F0F0))

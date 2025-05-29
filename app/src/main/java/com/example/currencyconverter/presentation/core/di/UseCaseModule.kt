@@ -3,6 +3,7 @@ package com.example.currencyconverter.presentation.core.di
 import com.example.currencyconverter.domain.repository.CurrencyRepository
 import com.example.currencyconverter.domain.usecase.CurrencyUseCases
 import com.example.currencyconverter.domain.usecase.GetCurrenciesUseCase
+import com.example.currencyconverter.domain.usecase.GetHistoricalRatesUseCase
 import com.example.currencyconverter.domain.usecase.GetLatestRatesUseCase
 import com.example.currencyconverter.domain.usecase.GetStatusUseCase
 import dagger.Module
@@ -21,7 +22,8 @@ object UseCaseModule {
         return CurrencyUseCases(
             getStatus = GetStatusUseCase(repository),
             getCurrencies = GetCurrenciesUseCase(repository),
-            getLatestRates = GetLatestRatesUseCase(repository)
+            getLatestRates = GetLatestRatesUseCase(repository),
+            getHistoricalRates = GetHistoricalRatesUseCase(repository)
         )
     }
 }
